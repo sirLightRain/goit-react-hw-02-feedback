@@ -1,17 +1,18 @@
 import { Button, ButtonWrapper } from './Buttons.styled';
 
-export const Buttons = ({ buttonClick }) => {
+export const FeedbackOptions = ({ options, onLeaveFeedback }) => {
   return (
     <ButtonWrapper>
-      <Button type="button" value="good" onClick={buttonClick}>
-        Good
-      </Button>
-      <Button type="button" value="neutral" onClick={buttonClick}>
-        Neutral
-      </Button>
-      <Button type="button" value="bad" onClick={buttonClick}>
-        Bad
-      </Button>
+      {/* Мапимо масив options на кнопки та передаємо обробник */}
+      {options.map(option => (
+        <Button
+          key={option}
+          value={option}
+          onClick={() => onLeaveFeedback(option)}
+        >
+          {option.charAt(0).toUpperCase() + option.slice(1)}
+        </Button>
+      ))}
     </ButtonWrapper>
   );
 };
