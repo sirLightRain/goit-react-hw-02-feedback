@@ -14,50 +14,52 @@ export class App extends Component {
   };
 
   handleFeedback = feedbackType => {
-    this.setState(
-      prevState => ({
-        [feedbackType]: prevState[feedbackType] + 1,
-      }),
-      () => {
-        this.updateStatistics();
-      }
-    );
+    this.setState(prevState => ({
+      [feedbackType]: prevState[feedbackType] + 1,
+    }));
   };
 
-  updateStatistics = () => {
+  calculateTotal = () => {
     const { good, neutral, bad } = this.state;
-    const total = good + neutral + bad;
-    const positivePercentage =
-      total > 0 ? ((good / total) * 100).toFixed(2) : 0;
-
-    this.setState({
-      total,
-      positivePercentage,
-    });
+    return good + neutral + bad;
   };
 
-  noFeedback = () => {
+  calculatePositivePercentage = () => {
+    const total = this.calculateTotal();
+    return total > 0 ? ((this.state.good / total) * 100).toFixed(2) : 0;
+  };
+
+  calculateNoFeedback = () => {
     const { good, neutral, bad } = this.state;
     return good === 0 && neutral === 0 && bad === 0;
   };
 
   render() {
+    const { good, neutral, bad } = this.state;
+       const total = this.calculateTotal();
+       const positivePercentage = this.calculatePositivePercentage();
+       const noFeedback = this.calculateNoFeedback();
 
     return (
       <Layout>
-
         <Section title="Please leave feedback">
           <FeedbackOptions
-            options={['good', 'neutral', 'bad']}
+            options={Object.keys(this.state)}
             onLeaveFeedback={this.handleFeedback}
           />
         </Section>
 
         <Section title="Statistics">
-          {this.noFeedback() ? (
-            <NoFeetback />
+          {noFeedback ? (
+            <NoFeetback title="No ffetback given!" />
           ) : (
-            <Statistics dataState={this.state} />
+            <Statistics
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              total={total}
+              positivePercentage={positivePercentage}
+            />
           )}
         </Section>
 
@@ -66,4 +68,3 @@ export class App extends Component {
     );
   }
 }
-
