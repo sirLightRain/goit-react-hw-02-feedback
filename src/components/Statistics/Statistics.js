@@ -1,9 +1,7 @@
 import { StatisticField } from './Statistics.styled';
 
 export const Statistics = ({
-  good,
-  neutral,
-  bad,
+  options: { good, neutral, bad },
   total,
   positivePercentage,
 }) => {

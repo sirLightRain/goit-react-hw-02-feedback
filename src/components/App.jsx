@@ -35,10 +35,9 @@ export class App extends Component {
   };
 
   render() {
-    const { good, neutral, bad } = this.state;
-       const total = this.calculateTotal();
-       const positivePercentage = this.calculatePositivePercentage();
-       const noFeedback = this.calculateNoFeedback();
+    const total = this.calculateTotal();
+    const positivePercentage = this.calculatePositivePercentage();
+    const noFeedback = this.calculateNoFeedback();
 
     return (
       <Layout>
@@ -54,9 +53,7 @@ export class App extends Component {
             <NoFeetback title="No ffetback given!" />
           ) : (
             <Statistics
-              good={good}
-              neutral={neutral}
-              bad={bad}
+              options={this.state}
               total={total}
               positivePercentage={positivePercentage}
             />
